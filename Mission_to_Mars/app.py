@@ -11,15 +11,26 @@ client = pymongo.MongoClient(conn)
 db = client.mission_to_mars
 scrape_mars = db.scrape_mars
 
-
-@app.route("/scrape")
-def scrape():
+@app.route("/")
+def index():
     # write a statement that finds all the items in the db and sets it to a variable
-    items = list(scrape_mars.find())
-    print(items)
+    items = mongo.db.items.find_one()
 
     # render an index.html template and pass it the data you retrieved from the database
     return render_template("index.html", items=items)
+
+
+@app.route("/scrape")
+def scraper():
+    # write a statement that finds all the items in the db and sets it to a variable
+#     items = list(scrape_mars.find())
+#     print(items)
+    items = mongo.db.items
+    item_data = scrape_mars.scrape()
+    items.update({}, item_data, upsert=True)
+
+    # render an index.html template and pass it the data you retrieved from the database
+    return redirect("/", code=302)
 
 
 if __name__ == "__main__":
