@@ -1,5 +1,6 @@
 from flask import Flask, render_template
 import pymongo
+import scrape_mars.py
 
 app = Flask(__name__)
 
@@ -21,7 +22,7 @@ def index():
 
 
 @app.route("/scrape")
-def scraper():
+def scrape():
     # write a statement that finds all the items in the db and sets it to a variable
 #     items = list(scrape_mars.find())
 #     print(items)
